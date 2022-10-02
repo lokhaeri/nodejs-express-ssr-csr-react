@@ -1,11 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import { BrowserRouter } from 'react-router-dom';
-import { createRoot } from 'react-dom/client';
 
 // import App components
-import App from './App';
+import { App } from './components/app';
 
-const container = document.getElementById('app');
-const root = createRoot(container);
-root.render(<App />);
+// compile App component in `#app` HTML element
+ReactDOM.render(<App/>, document.getElementById( 'app' ) );
