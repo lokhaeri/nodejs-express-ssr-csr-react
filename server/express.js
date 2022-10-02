@@ -3,14 +3,12 @@ const fs = require( 'fs' );
 const path = require( 'path' );
 const React = require( 'react' );
 const ReactDOMServer = require( 'react-dom/server' );
-const { StaticRouter } = require( 'react-router-dom' );
 
 // create express application
 const app = express();
 
 // import App component
-const App = require( '../src/App' );
-console.log("app", App)
+const { App } = require( '../src/components/app' );
 // import routes
 // const routes = require( './routes' );
 
@@ -24,7 +22,7 @@ app.use( '*', async ( req, res ) => {
     // const matchRoute = routes.find( route => matchPath( req.originalUrl, route ) );
 
     // fetch data of the matched component
-    let componentData = null;
+    // let componentData = null;
     // if( typeof matchRoute.component.fetchData === 'function' ) {
     //     componentData = await matchRoute.component.fetchData();
     // }
@@ -35,17 +33,16 @@ app.use( '*', async ( req, res ) => {
     } );
 
     // get HTML string from the `App` component
-    let appHTML = ReactDOMServer.renderToString(App);
-    // let appHTML = 'somehting'
+    let appHTML = ReactDOMServer.renderToString(<App />);
 
     // populate `#app` element with `appHTML`
     indexHTML = indexHTML.replace( '<div id="app"></div>', `<div id="app">${ appHTML }</div>` );
 
     // set value of `initial_state` global variable
-    indexHTML = indexHTML.replace(
-        'var initial_state = null;',
-        `var initial_state = ${ JSON.stringify( componentData ) };`
-    );
+    // indexHTML = indexHTML.replace(
+    //     'var initial_state = null;',
+    //     `var initial_state = ${ JSON.stringify( componentData ) };`
+    // );
 
     // set header and status
     res.contentType( 'text/html' );
