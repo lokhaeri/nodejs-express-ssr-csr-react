@@ -3,16 +3,16 @@ const fs = require( 'fs' );
 const path = require( 'path' );
 const React = require( 'react' );
 const ReactDOMServer = require( 'react-dom/server' );
-const { StaticRouter, matchPath } = require( 'react-router-dom' );
+const { StaticRouter } = require( 'react-router-dom' );
 
 // create express application
 const app = express();
 
 // import App component
-const { App } = require( '../src/components/app' );
-
+const App = require( '../src/App' );
+console.log("app", App)
 // import routes
-const routes = require( './routes' );
+// const routes = require( './routes' );
 
 // serve static assets
 app.get( /\.(js|css|map|ico)$/, express.static( path.resolve( __dirname, '../dist' ) ) );
@@ -21,13 +21,13 @@ app.get( /\.(js|css|map|ico)$/, express.static( path.resolve( __dirname, '../dis
 app.use( '*', async ( req, res ) => {
 
     // get matched route
-    const matchRoute = routes.find( route => matchPath( req.originalUrl, route ) );
+    // const matchRoute = routes.find( route => matchPath( req.originalUrl, route ) );
 
     // fetch data of the matched component
     let componentData = null;
-    if( typeof matchRoute.component.fetchData === 'function' ) {
-        componentData = await matchRoute.component.fetchData();
-    }
+    // if( typeof matchRoute.component.fetchData === 'function' ) {
+    //     componentData = await matchRoute.component.fetchData();
+    // }
 
     // read `index.html` file
     let indexHTML = fs.readFileSync( path.resolve( __dirname, '../dist/index.html' ), {
@@ -35,11 +35,8 @@ app.use( '*', async ( req, res ) => {
     } );
 
     // get HTML string from the `App` component
-    let appHTML = ReactDOMServer.renderToString(
-        <StaticRouter location={ req.originalUrl } context={ componentData }>
-            <App />
-        </StaticRouter>
-    );
+    let appHTML = ReactDOMServer.renderToString(App);
+    // let appHTML = 'somehting'
 
     // populate `#app` element with `appHTML`
     indexHTML = indexHTML.replace( '<div id="app"></div>', `<div id="app">${ appHTML }</div>` );
