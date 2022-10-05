@@ -1,23 +1,26 @@
+$base-padding: 16px;
+$base-fontSize: 14px;
+
 .ui-app {
-    padding: 20px;
+    padding: $base-padding;
     font-family: sans-serif;
 
     // navigation
     &__navigation {
         display: flex;
         align-items: center;
-        margin-bottom: 20px;
+        margin-bottom: $base-padding;
 
         &__link {
             flex: 0 0 auto;
-            margin-right: 20px;
-            font-size: 14px;
+            margin-right: $base-padding * 1.25;
+            font-size: $base-fontSize;
             text-transform: uppercase;
             text-decoration: none;
             color: #000;
 
             &--active {
-                color: #673AB7;
+                color: #eb772a;
                 font-weight: bold;
             }
         }
